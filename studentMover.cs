@@ -40,6 +40,69 @@ function shortestPath(node1, node2, adjList, pIndex):
 					queue.append(neighbour)
 	return shortestPathLength
 
+####################################################################################################
+
+// you can find the shortest distance to every pokemon using this algorithm:
+
+####################################################################################################
+
+int numberOfNodes;
+int numberOfPokemon;
+
+int pokemonNodeIndex[numberOfPokemon]; // records where the pokemon are on the graph
+int distanceToPokemon[numberOfPokemon]; // will be filled with the shortest distance to each pokemon
+
+vector<vector<int> > adjacencyList; 
+
+void breadthFirstSearch(int startNode){ // ---------------------------------------------------------
+	bool visited[numberOfNodes]; // records which nodes have already been visited (we do not want to visit a node more than once)
+	int distance[numberOfNodes]; // the shortest distance away from the starting node for each of the nodes
+
+	for(int i = 0; i < numberOfNodes; i++){ // clears any existing garbage data in the arrays + intializes the distance array
+		visited[i] = false;
+		distance[i] = INF;
+	}
+
+	queue<int> orderOfVisits; // queue will record which nodes we are going to visit and in which order
+
+	orderOfVisits.push(startNode); // 
+	visited[startNode] = true;     // some more initializations
+	distance[startNode] = 0;       //
+
+	while(!queue.empty()){ // the loop will continue to run until every node has been visited
+		
+		int front = orderOfVisits.front(); // removes the first element (which is a node index) of the queue and stores in variable
+		orderOfVisits.pop();               //
+
+		for(auto i = adjacencyList[front].begin(); i < adjacencyList[front].end(); i++){ // loops through the vector of a vector
+			
+			if(visited[*i] == false){ // if the node hasn't been visited, then update the distance
+
+				distance[*i] = distance[front] + 1; // <- done here
+				queue.push(*i); // we then want to check the nodes that are connected to the node we just checked
+
+				for(int j = 0; j < numberOfPokemon; j++){ // loop through all the pokemon locations and check if any of them match
+
+					if(*i == pokemonNodeIndex[j]){ // if one does match, store the shortest distance to that pokemon in a different location
+
+						distanceToPokemon[*i] = distance[front] + 1; // <- here
+					}
+
+				}
+
+			}
+
+		}
+		
+	}
+
+}
+
+####################################################################################################
+
+
+
+
 function heuristic(adjList, sIndex, pIndex):
 	// Input an adjacency list, a student node and an array of pokemon nodes. Output an int.
 	int value = 0
