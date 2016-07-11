@@ -52,7 +52,7 @@ int numberOfPokemon;
 int pokemonNodeIndex[numberOfPokemon]; // records where the pokemon are on the graph
 int distanceToPokemon[numberOfPokemon]; // will be filled with the shortest distance to each pokemon
 
-vector<vector<int> > adjacencyList; 
+vector<vector<int>> adjacencyList; 
 
 void breadthFirstSearch(int startNode){ // ---------------------------------------------------------
 	bool visited[numberOfNodes]; // records which nodes have already been visited (we do not want to visit a node more than once)
@@ -121,3 +121,51 @@ function bestMove(adjList, sIndex, pIndex):
 	return bestNode
 
 */
+
+//Real C# Code Here
+
+int numberOfNodes;
+int numberOfPokemon;
+const int maxn = 100; //This gives us a sufficiently large list to store stuffs.
+
+int[] pokemonNodeIndex = new int[numberOfPokemon]; // records where the pokemon are on the graph
+int[] distanceToPokemon = new int[numberOfPokemon]; // will be filled with the shortest distance to each pokemon
+		
+LinkedList<int>[] adjList = new LinkedList<int>[maxn]; //Initialise stuff!
+
+for(int i = 0; i < adjList.Length; i++){ //Initialise even more stuff!
+	adjList[i] = new LinkedList<int>();
+}
+
+void breadthFirstSearch(int startNode){ // ---------------------------------------------------------
+	bool[] visited = new bool[numberOfNodes]; // records which nodes have already been visited (we do not want to visit a node more than once)
+	int[] distance = new int[numberOfNodes]; // the shortest distance away from the starting node for each of the nodes
+
+	for(int k = 0; k < numberOfNodes; k++){ // clears any existing garbage data in the arrays + intializes the distance array
+		visited[k] = false;
+		distance[k] = 0;
+	}
+
+	Queue<int> orderOfVisits = new Queue<int>(); // queue will record which nodes we are going to visit and in which order
+
+	orderOfVisits.Enqueue(startNode); // 
+	visited[startNode] = true;     // some more initializations
+	distance[startNode] = 0;       //
+
+	while(queue.Count != 0){ // the loop will continue to run until every node has been visited
+		int front = orderOfVisits.Dequeue(); // removes the first element (which is a node index) of the queue and stores in variable
+
+		foreach (int node in adjList[front]) {
+			if(visited[node] == false){ // if the node hasn't been visited, then update the distance
+				distance[node] = distance[front] + 1; // <- done here
+				queue.Enqueue(node); // we then want to check the nodes that are connected to the node we just checked
+
+				for(int j = 0; j < numberOfPokemon; j++){ // loop through all the pokemon locations and check if any of them match
+					if(node == pokemonNodeIndex[j]){ // if one does match, store the shortest distance to that pokemon in a different location
+						distanceToPokemon[node] = distance[front] + 1; // <- here
+					}
+				}
+			}
+		}
+	}
+}
