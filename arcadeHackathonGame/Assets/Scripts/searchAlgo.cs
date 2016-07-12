@@ -100,25 +100,61 @@ class adj{
 		}
 	}
 
+	private int coolExponentiation(int Base, int exponent) {
+		//Returns an int
+		if (exponent <= 0) {
+			return 0;
+		}
+		else {
+			int value = 1;
+			for (int i = 0; i < exponent; i++) {
+				value = value * Base;
+			}
+			return value;
+		}
+	}
+
+	private int heuristic(int startNode) {
+		//Gives us the value of the heuristic given the current adjacency list and a certain start node. Returns an int.
+		int value = 0;	
+		for (int i = 0; i < pokemonNodeIndex.Length; i++){
+			value = value + coolExponentiation(3,8 - distance[pokemonNodeIndex[i]]);
+		}
+		return value;
+	}
+
+	public int bestMove(int currentPosition) {
+		// Running to find the best move
+		int bestHeuristic = 0;
+		int bestMove = 0; //Node to go to!
+		foreach (int node in adjList[currentPosition]) {
+			breadthFirstSearch(node);
+			int nextHeuristic = heuristic(node);
+			if (nextHeuristic > bestHeuristic) {
+				bestHeuristic = nextHeuristic;
+				bestMove = node;
+			}
+		}
+		return bestMove;
+	}
 }
 
 public class testGraph{
 
 	public static void Main(){
 
-		int startPosition = 0;
-
-		int nN = 10;
-		int nP = 2;
-		int[] pIndex = new int[2] {3, 9};
+		int currentPosition = 0; //This comes from Unity
+		int nN = 10; //This comes from Unity
+		int nP = 2; //This comes from Unity
+		int[] pIndex = new int[2] {3, 9}; //This comes from Unity
 
 		adj testGraph = new adj(nN, nP, pIndex);
 
-		testGraph.adjList[0].AddFirst(1);
-		testGraph.adjList[0].AddFirst(4);
-		testGraph.adjList[1].AddFirst(0);
-		testGraph.adjList[1].AddFirst(2);
-		testGraph.adjList[1].AddFirst(3);
+		testGraph.adjList[0].AddFirst(1); //This comes from Unity
+		testGraph.adjList[0].AddFirst(4); // |
+		testGraph.adjList[1].AddFirst(0); // |
+		testGraph.adjList[1].AddFirst(2); // |
+		testGraph.adjList[1].AddFirst(3); // v
 		testGraph.adjList[1].AddFirst(4);
 		testGraph.adjList[1].AddFirst(5);
 		testGraph.adjList[2].AddFirst(1);
@@ -153,19 +189,8 @@ public class testGraph{
 
 		Console.WriteLine("Test Cases Loaded.");
 
+		testGraph.breadthFirstSearch(currentPosition);
 
-		Console.WriteLine("Graph Connections: ");
-		testGraph.printGraph();
-		Console.WriteLine("----------------------");
-
-		testGraph.breadthFirstSearch(startPosition);
-		Console.WriteLine("Search Finished Running.");
-
-		Console.WriteLine("Distance to every node: ");
-		testGraph.printDistance();
-
-		Console.WriteLine("Distance to every Pokemon: ");
-		testGraph.printPokemonDistance();
-
+		Console.WriteLine("The Best Move is: " + testGraph.bestMove(currentPosition));
 	}
 }
