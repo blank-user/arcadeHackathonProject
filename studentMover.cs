@@ -158,7 +158,7 @@ void breadthFirstSearch(int startNode){ // -------------------------------------
 		foreach (int node in adjList[front]) {
 			if(visited[node] == false){ // if the node hasn't been visited, then update the distance
 				distance[node] = distance[front] + 1; // <- done here
-				queue.Enqueue(node); // we then want to check the nodes that are connected to the node we just checked
+				queue.Enqueue(node); // we then want to check the nodes that are connected to the node we just checked, so add em to the queue.
 
 				for(int j = 0; j < numberOfPokemon; j++){ // loop through all the pokemon locations and check if any of them match
 					if(node == pokemonNodeIndex[j]){ // if one does match, store the shortest distance to that pokemon in a different location
