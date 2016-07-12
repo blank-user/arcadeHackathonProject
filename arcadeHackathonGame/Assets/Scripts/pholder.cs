@@ -16,7 +16,6 @@ class adj{
 
 }
 
-
 public class BoardManager : MonoBehaviour {
 
 	const int maxn = 100;
