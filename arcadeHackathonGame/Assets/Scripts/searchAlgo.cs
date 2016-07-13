@@ -69,7 +69,7 @@ class adj{
 
 		for(int i = 0; i < numberOfNodes; i++){
 			visited[i] = false;
-			distance[i] = inf;
+			distance[i] = inf; //default value - if a node can't be reached, it's distance will be very large.
 		}
 
 		Queue<int> ord = new Queue<int>();
@@ -98,6 +98,18 @@ class adj{
 				}
 			}
 		}
+	}
+
+	public bool gameEnded(int currentPosition) {
+		breadthFirstSearch(currentPosition);
+		bool value = true;
+		foreach (pokemon in pokemonNodeIndex) {
+			if (distance[pokemon] != inf) {
+				value = false;
+			}
+		}
+
+		return value;
 	}
 
 	private int coolExponentiation(int Base, int exponent) {
@@ -191,6 +203,8 @@ public class testGraph{
 
 		testGraph.breadthFirstSearch(currentPosition);
 
-		Console.WriteLine("The Best Move is: " + testGraph.bestMove(currentPosition));
+		Console.WriteLine("The Best Move is: " + testGraph.bestMove(currentPosition)); // 
+
+		Console.WriteLine("The game has ended: " + testGraph.gameEnded(currentPosition)); //Has the game ended?
 	}
 }
