@@ -9,6 +9,7 @@ public class BoardManager : MonoBehaviour {
 	public GameObject[] pokemonObjects;  // import from Unity
 	public GameObject startNodeObject;   //
 	public GameObject playerObject;          //
+	public GameObject player;
 
 	private Dictionary<GameObject, int> objectToIndex = new Dictionary<GameObject, int>(); // map from GameObject to int
 	private Dictionary<int, GameObject> indexToObject = new Dictionary<int, GameObject>(); // and vise-versa
@@ -17,7 +18,7 @@ public class BoardManager : MonoBehaviour {
 	private Adj graph;
 	private int[] pokemonIndex;
 
-	void Start(){
+	void Awake(){
 		initialize();
 	}
 
@@ -40,7 +41,7 @@ public class BoardManager : MonoBehaviour {
 			indexToObject.Add (indexCounter, nodeObjects [indexCounter]);
 		}
 
-		GameObject player = (GameObject)Instantiate (playerObject, startNodeObject.transform.position, Quaternion.identity);
+		player = (GameObject)Instantiate (playerObject, startNodeObject.transform.position, Quaternion.identity);
 
 		graph = new Adj (nodeObjects.Length, pokemonObjects.Length, pokemonIndex);
 		boardSetup ();
