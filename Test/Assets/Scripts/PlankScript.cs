@@ -3,16 +3,30 @@ using System.Collections;
 
 public class PlankScript : MonoBehaviour {
 
+	public Sprite updated;
+
 	private BoardManager boardScript;
+	private SpriteRenderer spriteScript;
+
+	private bool active = true;
 
 	void Awake(){
 		boardScript = GameObject.Find ("BoardManager").GetComponent<BoardManager> ();
+		spriteScript = GetComponent<SpriteRenderer> ();
+
 	}
 
 	void OnMouseDown(){
 
+		if (active == false) {
+			return;
+		}
+
 		if (boardScript.playerTurn == true && boardScript.gameContinue == true) {
-			gameObject.SetActive (false);
+
+			active = false;
+			spriteScript.sprite = updated;
+
 			GameObject[] closeNodes = new GameObject[2];
 			closeNodes = boardScript.closestNode (gameObject);
 

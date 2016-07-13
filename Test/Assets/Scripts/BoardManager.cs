@@ -39,6 +39,10 @@ public class BoardManager : MonoBehaviour {
 			gameContinue = false;
 		}
 
+		if (gameContinue == false) {
+			return;
+		}
+
 		if (playerTurn == true) {
 			return;
 		} else {
@@ -62,7 +66,7 @@ public class BoardManager : MonoBehaviour {
 		int numPokemon = 0;
 
 		for (int indexCounter = 0; indexCounter < nodeObjects.Length; indexCounter++) {
-			if (nodeObjects [indexCounter].tag == "Goal") {
+			if (nodeObjects [indexCounter].tag == "Pokemon") {
 				pokemonIndex [numPokemon] = indexCounter;
 				numPokemon++;
 			}
