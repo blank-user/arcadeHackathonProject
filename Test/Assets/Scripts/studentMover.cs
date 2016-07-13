@@ -1,17 +1,21 @@
 using UnityEngine;
 using System.Collections;
 
-public class studentController : MonoBehaviour {
-
-	public GameObject startNodeObject;
-	public GameObject endNodeObject;
-
+public class studentMover : MonoBehaviour {
 	// Makes student move along the edge!
+
+	private BoardManager boardScript;
+
+	void Start() {
+		boardScript = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+		moveStudent(4,1);
+	}
+
 	public void moveStudent(int startNode, int endNode) {
 		//Input: two ints of the nodes that we are moving along
 		//Output: None. See Student avatar move from one node to the other.
-		GameObject startNodeObject = getNode(startNode);
-		GameObject endNodeObject = getNode(endNode);
+		GameObject startNodeObject = boardScript.nodeObjects[startNode];
+		GameObject endNodeObject = boardScript.nodeObjects[endNode];
 
 		Vector3 startNodePosition = startNodeObject.transform.position;
 		Vector3 endNodePosition = endNodeObject.transform.position;
@@ -19,8 +23,10 @@ public class studentController : MonoBehaviour {
 
 		float distance = displacementVector.magnitude;
 
-		float translation = distance * Time.deltaTime // Moves the whole thing in 1 second.
-		Vector3 newVector = translation * displacementVector;
-		transform.Translate(newVector); 
+		while (boardScript.player.transform.position != endNodePosition) {
+			float translation = distance * Time.deltaTime; // Moves the whole thing in 1 second.
+			Vector3 newVector = translation * displacementVector;
+			boardScript.player.transform.Translate(newVector); 			
+		}
 	}
 }

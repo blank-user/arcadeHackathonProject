@@ -5,6 +5,8 @@
 -r:"C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll"
 -r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll"
 -r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll"
+-r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll"
+-r:"C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll"
 -r:"C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll"
 -define:UNITY_5_3_OR_NEWER
 -define:UNITY_5_3_5
@@ -78,8 +80,11 @@
 -define:UNITY_EDITOR_64
 -define:UNITY_EDITOR_WIN
 -define:UNITY_TEAM_LICENSE
+Assets/Scripts/AIController.cs
+Assets/Scripts/Adj.cs
 Assets/Scripts/BoardManager.cs
-Assets/Scripts/GameInformation.cs
+Assets/Scripts/GameManager.cs
 Assets/Scripts/PlankScript.cs
+Assets/Scripts/studentMover.cs
 -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Runtime.Serialization.dll"
 -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.Linq.dll"
