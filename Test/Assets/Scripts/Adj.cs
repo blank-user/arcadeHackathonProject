@@ -6,7 +6,6 @@ public class Adj {
 	
 	// -----------------------------------------------------------------------------------------------
 	int numberOfNodes;
-	int numberOfPokemon;
 
 	int[] pokemonNodeIndex;
 	public int[] distance;
@@ -20,7 +19,6 @@ public class Adj {
 
 	public Adj(int numNodes, int numPokemon, int[] pokemonIndex){
 		numberOfNodes = numNodes;
-		numberOfPokemon = numPokemon;
 		pokemonNodeIndex = pokemonIndex;
 		distance = new int[numNodes];
 
@@ -49,18 +47,14 @@ public class Adj {
 
 	public void printPokemonDistance(){
 		for(int i = 0; i < pokemonNodeIndex.Length; i++){
-			Console.Write(distance[pokemonNodeIndex[i]] + " ");
+			Debug.Log(distance[pokemonNodeIndex[i]] + " ");
 		}
-
-		Console.WriteLine();
 	}
 
 	public void printDistance(){
 		for(int i = 0; i < distance.Length; i++){
-			Console.Write(distance[i] + " " );
+			Debug.Log(distance[i] + " " );
 		}
-
-		Console.WriteLine();
 	}
 
 	private void breadthFirstSearch(int startNode){
@@ -88,38 +82,71 @@ public class Adj {
 					distance[node] = distance[front] + 1;
 					ord.Enqueue(node);
 					visited[node] = true;
-
-					/*for(int i = 0; i < numberOfPokemon; i++){
-						if(node == pokemonNodeIndex[i]){
-							distanceToPokemon[node] = distance[front] + 1;
-						}
-					}*/
 				}
 			}
 		}
 	}
 
-	private int coolExponentiation(int Base, int exponent) {
-		//Returns an int
-		if (exponent <= 0) {
+	private int coolExponentiation(int x, int pow){
+
+		if (pow < 0) {
 			return 0;
 		}
-		else {
-			int value = 1;
-			for (int i = 0; i < exponent; i++) {
-				value = value * Base;
+
+		int ret = 1;
+		while (pow != 0){
+			if ((pow & 1) == 1) {
+				ret *= x;
 			}
-			return value;
+			x *= x;
+			pow >>= 1;
+		}
+		return ret;
+	}
+
+	private int heuristic() { // ------------------- I THINK THIS FUNCTION IS OK...
+		//Gives us the value of the heuristic given the current adjacency list and a certain start node. Returns an int.
+
+		const int inf = 1000000000;
+			
+		int value = 0;
+		for (int i = 0; i < pokemonNodeIndex.Length; i++){
+
+			if(distance[pokemonNodeIndex[i]] == 0){
+				value = inf;
+				break;
+			}
+			value = value + coolExponentiation(3,8 - distance[pokemonNodeIndex[i]]); // ok... the closer the pokemon, the larger this value
+		} // goes to 8 and then becomes negative??? ... i guess we just ignore those cases.
+		return value;
+	}
+
+	public bool win(int currentPosition){
+		breadthFirstSearch (currentPosition);
+
+		int min = inf;
+
+		for(int i = 0; i < pokemonNodeIndex.Length; i++){
+			if (distance [pokemonNodeIndex [i]] < inf) {
+				min = pokemonNodeIndex [i];
+			}
+		}
+
+		if (min == inf) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
-	private int heuristic(int startNode) {
-		//Gives us the value of the heuristic given the current adjacency list and a certain start node. Returns an int.
-		int value = 0;	
-		for (int i = 0; i < pokemonNodeIndex.Length; i++){
-			value = value + coolExponentiation(3,8 - distance[pokemonNodeIndex[i]]);
+	public bool gameOver(int currentPosition){
+		
+		for (int i = 0; i < pokemonNodeIndex.Length; i++) {
+			if (currentPosition == pokemonNodeIndex [i]) {
+				return true;
+			}
 		}
-		return value;
+		return false;
 	}
 
 	public int bestMove(int currentPosition) {
@@ -128,7 +155,13 @@ public class Adj {
 		int bestMove = 0; //Node to go to!
 		foreach (int node in adjList[currentPosition]) {
 			breadthFirstSearch(node);
-			int nextHeuristic = heuristic(node);
+
+			//printDistance();
+
+			int nextHeuristic = heuristic();
+
+			Debug.Log ("Node: " + node.ToString() + " and value: " + nextHeuristic.ToString());
+
 			if (nextHeuristic > bestHeuristic) {
 				bestHeuristic = nextHeuristic;
 				bestMove = node;
