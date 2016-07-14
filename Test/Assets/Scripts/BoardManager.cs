@@ -18,8 +18,6 @@ public class BoardManager : MonoBehaviour {
 	public Adj graph;
 	private int[] pokemonIndex;
 
-	private studentMover studentControl;
-
 	public bool gameContinue = true;
 
 	public bool playerTurn = true;

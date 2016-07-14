@@ -80,6 +80,7 @@
 'Assets/Scripts/Adj.cs'
 'Assets/Scripts/BoardManager.cs'
 'Assets/Scripts/PlankScript.cs'
+'Assets/Scripts/PlayOnClick.cs'
 'Assets/Scripts/fitScreen.cs'
 'Assets/Scripts/studentMover.cs'
 'Assets/Scripts/test.cs'
