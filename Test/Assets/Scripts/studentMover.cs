@@ -6,9 +6,8 @@ public class studentMover : MonoBehaviour {
 
 	private BoardManager boardScript;
 
-	void Start() {
+	void Awake() {
 		boardScript = GameObject.Find("BoardManager").GetComponent<BoardManager>();
-		moveStudent(4,1);
 	}
 
 	public void moveStudent(int startNode, int endNode) {
@@ -23,9 +22,9 @@ public class studentMover : MonoBehaviour {
 
 		float distance = displacementVector.magnitude;
 
-		while (boardScript.player.transform.position != endNodePosition) {
+		while (boardScript.playerObject.transform.position != endNodePosition) {
 			float translation = distance * Time.deltaTime; // Moves the whole thing in 1 second.
-			boardScript.player.transform.position = Vector3.MoveTowards(boardScript.player.transform.position, endNodePosition, translation); 			
+			boardScript.playerObject.transform.position = Vector3.MoveTowards(boardScript.playerObject.transform.position, endNodePosition, translation); 			
 		}
 	}
 }

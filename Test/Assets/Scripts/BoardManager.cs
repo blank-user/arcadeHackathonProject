@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour {
@@ -17,9 +18,12 @@ public class BoardManager : MonoBehaviour {
 	public Adj graph;
 	private int[] pokemonIndex;
 
+	private studentMover studentControl;
+
 	public bool gameContinue = true;
 
 	public bool playerTurn = true;
+	public bool studentTurn = false;
 
 	void Awake(){
 
@@ -29,13 +33,8 @@ public class BoardManager : MonoBehaviour {
 
 	void Update(){
 
-		if (graph.win (playerPositionIndex) == true) {
+		if (graph.win (playerPositionIndex) == true && gameContinue == true) {
 			Debug.Log ("You've won!");                     // change to something else. pop up GUI, terminate game??
-			gameContinue = false;
-		}
-
-		if (graph.gameOver (playerPositionIndex) == true) {
-			Debug.Log ("You've lost!");                    // same thing.
 			gameContinue = false;
 		}
 
@@ -43,23 +42,55 @@ public class BoardManager : MonoBehaviour {
 			return;
 		}
 
+		if (graph.gameOver (playerPositionIndex) == true && gameContinue == true) {
+			Debug.Log ("You've lost!");                    // same thing.
+			gameContinue = false;
+		}
+
 		if (playerTurn == true) {
 			return;
 		} else {
-			
-			int nextMove = graph.bestMove (playerPositionIndex);
-			playerPositionIndex = nextMove;
-			GameObject nextNodeObject = indexToObject [nextMove];
+			if (studentTurn == true) {
+				int nextMove = graph.bestMove (playerPositionIndex);
 
-			playerObject.transform.position = nextNodeObject.transform.position;
+				StartCoroutine (MoveOverSpeed (playerObject, indexToObject[nextMove].transform.position, 5f));
 
-			//Debug.Log ("Enemy Turn");
-
-			playerTurn = true;
+				playerPositionIndex = nextMove;
+			}
 		}
 	}
 
-	public void initialize(){ // initialization of 
+	public IEnumerator MoveOverSpeed (GameObject objectToMove, Vector3 end, float speed){
+		// speed should be 1 unit per second
+
+		studentTurn = false;
+
+		while (objectToMove.transform.position != end)
+		{
+			objectToMove.transform.position = Vector3.MoveTowards(objectToMove.transform.position, end, speed * Time.deltaTime);
+			yield return new WaitForEndOfFrame ();
+		}
+
+		playerTurn = true;
+
+	}
+
+	public IEnumerator MoveOverSeconds (GameObject objectToMove, Vector3 end, float seconds)
+	{
+		float elapsedTime = 0;
+		Vector3 startingPos = objectToMove.transform.position;
+		while (elapsedTime < seconds)
+		{
+			objectToMove.transform.position = Vector3.Lerp(startingPos, end, (elapsedTime / seconds));
+			elapsedTime += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+		}
+		objectToMove.transform.position = end;
+
+		playerTurn = true;
+	}
+
+	public void initialize(){ 
 
 		pokemonIndex = new int[pokemonObjects.Length];
 

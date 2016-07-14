@@ -39,6 +39,7 @@ public class PlankScript : MonoBehaviour {
 			//boardScript.graph.printGraph ();
 
 			boardScript.playerTurn = false;
+			boardScript.studentTurn = true;
 		}
 	}
 

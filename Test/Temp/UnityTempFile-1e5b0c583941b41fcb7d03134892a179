@@ -81,6 +81,7 @@
 'Assets/Scripts/BoardManager.cs'
 'Assets/Scripts/PlankScript.cs'
 'Assets/Scripts/fitScreen.cs'
-'Assets/test.cs'
+'Assets/Scripts/studentMover.cs'
+'Assets/Scripts/test.cs'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/unity/System.Runtime.Serialization.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/unity/System.Xml.Linq.dll'
